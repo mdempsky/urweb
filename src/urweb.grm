@@ -1026,7 +1026,6 @@ spath  : CSYMBOL                        (StrVar CSYMBOL, s (CSYMBOLleft, CSYMBOL
        | spath DOT CSYMBOL              (StrProj (spath, CSYMBOL), s (spathleft, CSYMBOLright))
 
 kind   : TYPE                           (KType, s (TYPEleft, TYPEright))
-       | NAME                           (KName, s (NAMEleft, NAMEright))
        | LBRACE kind RBRACE             (KRecord kind, s (LBRACEleft, RBRACEright))
        | kind ARROW kind                (KArrow (kind1, kind2), s (kind1left, kind2right))
        | LPAREN kind RPAREN             (#1 kind, s (LPARENleft, RPARENright))

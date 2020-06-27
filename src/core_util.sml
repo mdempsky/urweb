@@ -45,10 +45,6 @@ fun compare ((k1, _), (k2, _)) =
       | (KArrow _, _) => LESS
       | (_, KArrow _) => GREATER
 
-      | (KName, KName) => EQUAL
-      | (KName, _) => LESS
-      | (_, KName) => GREATER
-
       | (KRecord k1, KRecord k2) => compare (k1, k2)
       | (KRecord _, _) => LESS
       | (_, KRecord _) => GREATER
@@ -82,8 +78,6 @@ fun mapfoldB {kind = f, bind} =
                          S.map2 (mfk ctx k2,
                               fn k2' =>
                                  (KArrow (k1', k2'), loc)))
-
-              | KName => S.return2 kAll
 
               | KRecord k =>
                 S.map2 (mfk ctx k,

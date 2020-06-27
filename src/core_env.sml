@@ -178,19 +178,6 @@ type env = {
      namedE : (string * con * exp option * string) IM.map
 }
 
-val empty = {
-    relK = [],
-
-    relC = [],
-    namedC = IM.empty,
-
-    datatypes = IM.empty,
-    constructors = IM.empty,
-
-    relE = [],
-    namedE = IM.empty
-}
-
 fun pushKRel (env : env) x =
     {relK = x :: #relK env,
 
@@ -203,6 +190,19 @@ fun pushKRel (env : env) x =
      datatypes = #datatypes env,
      constructors = #constructors env
     }
+
+val empty = pushKRel {
+    relK = [],
+
+    relC = [],
+    namedC = IM.empty,
+
+    datatypes = IM.empty,
+    constructors = IM.empty,
+
+    relE = [],
+    namedE = IM.empty
+} "Name"
 
 fun lookupKRel (env : env) n =
     (List.nth (#relK env, n))

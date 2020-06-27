@@ -35,7 +35,6 @@ fun explifyKind (k, loc) =
     case k of
         L.KType => (L'.KType, loc)
       | L.KArrow (k1, k2) => (L'.KArrow (explifyKind k1, explifyKind k2), loc)
-      | L.KName => (L'.KName, loc)
       | L.KRecord k => (L'.KRecord (explifyKind k), loc)
 
       | L.KUnit => (L'.KUnit, loc)

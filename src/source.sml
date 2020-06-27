@@ -32,7 +32,6 @@ type 'a located = 'a ErrorMsg.located
 datatype kind' =
          KType
        | KArrow of kind * kind
-       | KName
        | KRecord of kind
        | KUnit
        | KTuple of kind list

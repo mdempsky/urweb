@@ -465,7 +465,6 @@ fun corifyKind (k, loc) =
     case k of
         L.KType => (L'.KType, loc)
       | L.KArrow (k1, k2) => (L'.KArrow (corifyKind k1, corifyKind k2), loc)
-      | L.KName => (L'.KName, loc)
       | L.KRecord k => (L'.KRecord (corifyKind k), loc)
       | L.KUnit => (L'.KUnit, loc)
       | L.KTuple ks => (L'.KTuple (map corifyKind ks), loc)

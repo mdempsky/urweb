@@ -253,30 +253,6 @@ fun newNamed () =
         r
     end
 
-val empty = {
-    renameK = SM.empty,
-    relK = [],
-
-    renameC = SM.empty,
-    relC = [],
-    namedC = IM.empty,
-
-    datatypes = IM.empty,
-    constructors = SM.empty,
-
-    classes = CM.empty,
-
-    renameE = SM.empty,
-    relE = [],
-    namedE = IM.empty,
-
-    renameSgn = SM.empty,
-    sgn = IM.empty,
-
-    renameStr = SM.empty,
-    str = IM.empty
-}
-
 fun pushKRel (env : env) x =
     let
         val renameK = SM.map (fn n => n+1) (#renameK env)
@@ -314,11 +290,37 @@ fun pushKRel (env : env) x =
         }
     end
 
+val empty = pushKRel {
+    renameK = SM.empty,
+    relK = [],
+
+    renameC = SM.empty,
+    relC = [],
+    namedC = IM.empty,
+
+    datatypes = IM.empty,
+    constructors = SM.empty,
+
+    classes = CM.empty,
+
+    renameE = SM.empty,
+    relE = [],
+    namedE = IM.empty,
+
+    renameSgn = SM.empty,
+    sgn = IM.empty,
+
+    renameStr = SM.empty,
+    str = IM.empty
+} "Name"
+
 fun lookupKRel (env : env) n =
     (List.nth (#relK env, n))
     handle Subscript => raise UnboundRel n
 
 fun lookupK (env : env) x = SM.find (#renameK env, x)
+
+fun lookupKName (env : env) = length (#relK env) - 1
 
 fun pushCRel (env : env) x k =
     let
@@ -517,7 +519,6 @@ fun unifyKinds (k1, k2) =
     case (#1 k1, #1 k2) of
         (KType, KType) => ()
       | (KArrow (d1, r1), KArrow (d2, r2)) => (unifyKinds (d1, d2); unifyKinds (r1, r2))
-      | (KName, KName) => ()
       | (KRecord k1, KRecord k2) => unifyKinds (k1, k2)
       | (KUnit, KUnit) => ()
       | (KTuple ks1, KTuple ks2) => (ListPair.appEq unifyKinds (ks1, ks2)

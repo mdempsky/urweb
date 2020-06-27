@@ -52,6 +52,7 @@ signature ELAB_ENV = sig
     val pushKRel : env -> string -> env
     val lookupKRel : env -> int -> string
     val lookupK : env -> string -> int option
+    val lookupKName : env -> int
 
     val pushCRel : env -> string -> Elab.kind -> env
     val lookupCRel : env -> int -> string * Elab.kind

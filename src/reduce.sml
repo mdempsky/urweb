@@ -257,7 +257,6 @@ fun kindConAndExp (namedC, namedE) =
             case k of
                 KType => all
               | KArrow (k1, k2) => (KArrow (kind env k1, kind env k2), loc)
-              | KName => all
               | KRecord k => (KRecord (kind env k), loc)
               | KUnit => all
               | KTuple ks => (KTuple (map (kind env) ks), loc)

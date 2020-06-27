@@ -59,8 +59,6 @@ fun mapfoldB {kind, bind} =
                               fn k2' =>
                                  (KArrow (k1', k2'), loc)))
 
-              | KName => S.return2 kAll
-
               | KRecord k =>
                 S.map2 (mfk ctx k,
                         fn k' =>

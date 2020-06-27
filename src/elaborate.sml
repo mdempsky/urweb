@@ -103,7 +103,6 @@
            | (L'.KArrow (d1, r1), L'.KArrow (d2, r2)) =>
              (unifyKinds' env d1 d2;
               unifyKinds' env r1 r2)
-           | (L'.KName, L'.KName) => ()
            | (L'.KRecord k1, L'.KRecord k2) => unifyKinds' env k1 k2
            | (L'.KTuple ks1, L'.KTuple ks2) =>
              ((ListPair.appEq (fn (k1, k2) => unifyKinds' env k1 k2) (ks1, ks2))
@@ -200,7 +199,7 @@
  val dummy = ErrorMsg.dummySpan
 
  val ktype = (L'.KType, dummy)
- val kname = (L'.KName, dummy)
+ fun kname env = (L'.KRel (E.lookupKName env), dummy)
  val ktype_record = (L'.KRecord ktype, dummy)
 
  val cerror = (L'.CError, dummy)
@@ -303,7 +302,6 @@
      case k of
          L.KType => (L'.KType, loc)
        | L.KArrow (k1, k2) => (L'.KArrow (elabKind env k1, elabKind env k2), loc)
-       | L.KName => (L'.KName, loc)
        | L.KRecord k => (L'.KRecord (elabKind env k), loc)
        | L.KUnit => (L'.KUnit, loc)
        | L.KTuple ks => (L'.KTuple (map (elabKind env) ks), loc)
@@ -482,7 +480,7 @@
          end
 
        | L.CName s =>
-         ((L'.CName s, loc), kname, [])
+         ((L'.CName s, loc), kname env, [])
 
        | L.CRecord xcs =>
          let
@@ -493,7 +491,7 @@
                                                         val (x', xk, gs1) = elabCon (env, denv) x
                                                         val (c', ck, gs2) = elabCon (env, denv) c
                                                     in
-                                                        checkKind env x' xk kname;
+                                                        checkKind env x' xk (kname env);
                                                         checkKind env c' ck k;
                                                         ((x', c'), gs1 @ gs2 @ gs)
                                                     end) [] xcs
@@ -673,7 +671,7 @@
        | L'.CAbs (x, k, c) => (L'.KArrow (k, kindof (E.pushCRel env x k) c), loc)
 
 
-       | L'.CName _ => kname
+       | L'.CName _ => kname env
 
        | L'.CRecord (k, _) => (L'.KRecord k, loc)
        | L'.CConcat (c, _) => kindof env c
@@ -2317,7 +2315,7 @@ fun elabExp (env, denv) (eAll as (e, loc)) =
                                                            val (x', xk, gs1) = elabCon (env, denv) x
                                                            val (e', et, gs2) = elabExp (env, denv) e
                                                        in
-                                                           checkKind env x' xk kname;
+                                                           checkKind env x' xk (kname env);
                                                            ((x', e', et), enD gs1 @ gs2 @ gs)
                                                        end)
                                                    [] xes
@@ -2398,7 +2396,7 @@ fun elabExp (env, denv) (eAll as (e, loc)) =
                             
                 val gs3 = D.prove env denv (first, rest, loc)
             in
-                checkKind env c' ck kname;
+                checkKind env c' ck (kname env);
                 ((L'.ECut (e', c', {field = ft, rest = rest}), loc), (L'.TRecord rest, loc),
                  gs1 @ enD gs2 @ enD gs3)
             end
@@ -3709,7 +3707,6 @@ and wildifyStr env (str, sgn) =
                          (case (decompileKind k1, decompileKind k2) of
                               (SOME k1, SOME k2) => SOME (L.KArrow (k1, k2), loc)
                             | _ => NONE)
-                       | L'.KName => SOME (L.KName, loc)
                        | L'.KRecord k =>
                          (case decompileKind k of
                               SOME k => SOME (L.KRecord k, loc)

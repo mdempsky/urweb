@@ -42,7 +42,6 @@ fun p_kind' par (k, _) =
                                              string "->",
                                              space,
                                              p_kind k2])
-      | KName => string "Name"
       | KRecord k => box [string "{", p_kind k, string "}"]
       | KUnit => string "Unit"
       | KWild => string "_"

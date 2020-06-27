@@ -113,20 +113,6 @@ type env = {
 
 val namedCounter = ref 0
 
-val empty = {
-    relK = [],
-
-    relC = [],
-    namedC = IM.empty,
-
-    relE = [],
-    namedE = IM.empty,
-
-    sgn = IM.empty,
-
-    str = IM.empty
-}
-
 fun pushKRel (env : env) x =
     {relK = x :: #relK env,
 
@@ -140,6 +126,20 @@ fun pushKRel (env : env) x =
 
      str = #str env
     }
+
+val empty = pushKRel {
+    relK = [],
+
+    relC = [],
+    namedC = IM.empty,
+
+    relE = [],
+    namedE = IM.empty,
+
+    sgn = IM.empty,
+
+    str = IM.empty
+} "Name"
 
 fun lookupKRel (env : env) n =
     (List.nth (#relK env, n))

@@ -46,7 +46,6 @@ fun p_kind' par env (k, _) =
                                              string "->",
                                              space,
                                              p_kind env k2])
-      | KName => string "Name"
       | KRecord k => box [string "{", p_kind env k, string "}"]
       | KUnit => string "Unit"
       | KTuple ks => box [string "(",
