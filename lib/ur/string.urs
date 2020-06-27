@@ -28,6 +28,7 @@ val msplit : {Haystack : t, Needle : t} -> option (string * char * string)
 val ssplit : {Haystack : t, Needle : t} -> option (string * string)
 
 val all : (char -> bool) -> string -> bool
+val map : (char -> char) -> string -> string
 val mp : (char -> char) -> string -> string
 
 val newlines : ctx ::: {Unit} -> [[Body] ~ ctx] => string -> xml ([Body] ++ ctx) [] []

@@ -14,6 +14,8 @@ structure Folder : sig
                -> [[nm] ~ r] => folder r -> folder ([nm = v] ++ r)
     val concat : K --> r1 ::: {K} -> r2 ::: {K}
                  -> [r1 ~ r2] => folder r1 -> folder r2 -> folder (r1 ++ r2)
+    val map : K1 --> K2 --> f ::: (K1 -> K2) -> r ::: {K1}
+              -> folder r -> folder (map f r)
     val mp : K1 --> K2 --> f ::: (K1 -> K2) -> r ::: {K1}
              -> folder r -> folder (map f r)
 end
@@ -68,6 +70,9 @@ val map0 : K --> tf :: (K -> Type)
 (* Given two polymorphic types (tf1 and tf2) and a means of
    converting from tf1 t to tf2 t for arbitrary t,
    converts records of tf1's to records of tf2's *)
+val map : K --> tf1 :: (K -> Type) -> tf2 :: (K -> Type)
+          -> (t ::: K -> tf1 t -> tf2 t)
+          -> r ::: {K} -> folder r -> $(map tf1 r) -> $(map tf2 r)
 val mp : K --> tf1 :: (K -> Type) -> tf2 :: (K -> Type)
          -> (t ::: K -> tf1 t -> tf2 t)
          -> r ::: {K} -> folder r -> $(map tf1 r) -> $(map tf2 r)

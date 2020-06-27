@@ -376,7 +376,7 @@ fun patternOut (e : exp) =
  | LPAREN | RPAREN | LBRACK | RBRACK | LBRACE | RBRACE
  | EQ | COMMA | COLON | DCOLON | DCOLONWILD | TCOLON | TCOLONWILD | DOT | HASH | UNDER | UNDERUNDER | BAR
  | PLUS | MINUS | DIVIDE | DOTDOTDOT | MOD | AT
- | CON | LTYPE | VAL | REC | AND | FUN | MAP | UNIT | CLASS | FFI
+ | CON | LTYPE | VAL | REC | AND | FUN | UNIT | CLASS | FFI
  | DATATYPE | OF
  | ARROW | LARROW | DARROW | STAR | SEMI | KARROW | DKARROW | BANG
  | FN | PLUSPLUS | MINUSMINUS | MINUSMINUSMINUS | DOLLAR | TWIDDLE | CARET
@@ -1171,7 +1171,6 @@ cterm  : LPAREN cexp RPAREN             (#1 cexp, s (LPARENleft, RPARENright))
        | path DOT INT                   (CProj ((CVar path, s (pathleft, pathright)), Int64.toInt INT),
                                          s (pathleft, INTright))
        | UNDER                          (CWild (KWild, s (UNDERleft, UNDERright)), s (UNDERleft, UNDERright))
-       | MAP                            (CMap, s (MAPleft, MAPright))
        | UNIT                           (CUnit, s (UNITleft, UNITright))
        | LPAREN ctuplev RPAREN          (CTuple ctuplev, s (LPARENleft, RPARENright))
 

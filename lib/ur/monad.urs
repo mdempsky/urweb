@@ -4,6 +4,8 @@ val exec : m ::: (Type -> Type) -> monad m -> ts ::: {Type}
 val ignore : m ::: (Type -> Type) -> monad m -> t ::: Type
              -> m t -> m unit
 
+val map : m ::: (Type -> Type) -> monad m -> a ::: Type -> b ::: Type
+          -> (a -> b) -> m a -> m b
 val mp : m ::: (Type -> Type) -> monad m -> a ::: Type -> b ::: Type
          -> (a -> b) -> m a -> m b
 

@@ -428,7 +428,6 @@ xint = x[0-9a-fA-F][0-9a-fA-F];
 <INITIAL> "and"       => (Tokens.AND (pos yypos, pos yypos + size yytext));
 <INITIAL> "fun"       => (Tokens.FUN (pos yypos, pos yypos + size yytext));
 <INITIAL> "fn"        => (Tokens.FN (pos yypos, pos yypos + size yytext));
-<INITIAL> "map"       => (Tokens.MAP (pos yypos, pos yypos + size yytext));
 <INITIAL> "case"      => (Tokens.CASE (pos yypos, pos yypos + size yytext));
 <INITIAL> "if"        => (Tokens.IF (pos yypos, pos yypos + size yytext));
 <INITIAL> "then"      => (Tokens.THEN (pos yypos, pos yypos + size yytext));

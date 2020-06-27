@@ -414,9 +414,10 @@
 
        | L.CVar ([], s) =>
          (case E.lookupC env s of
-              E.NotBound =>
-              (conError env (UnboundCon (loc, s));
-               (cerror, kerror, []))
+              E.NotBound => (case s of
+                                 "map" => elabCon (env, denv) (L.CMap, loc)
+                               | _ => (conError env (UnboundCon (loc, s));
+                                       (cerror, kerror, [])))
             | E.Rel (n, k) =>
               let
                   val (c, k) = elabConHead env (L'.CRel n, loc) k

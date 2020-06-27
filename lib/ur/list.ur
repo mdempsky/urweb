@@ -101,7 +101,7 @@ val revAppend = fn [a] =>
 
 fun append [a] (ls1 : t a) (ls2 : t a) = revAppend (rev ls1) ls2                
 
-fun mp [a] [b] f =
+fun map [a] [b] f =
     let
         fun mp' acc ls =
             case ls of
@@ -110,6 +110,8 @@ fun mp [a] [b] f =
     in
         mp' []
     end
+
+val mp = @@map
 
 fun mapConcat [a] [b] f =
     let

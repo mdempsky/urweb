@@ -68,7 +68,7 @@ fun all f s =
         al 0
     end
 
-fun mp f s =
+fun map f s =
     let
         fun mp' i acc =
             if i < 0 then
@@ -78,6 +78,8 @@ fun mp f s =
     in
         mp' (length s - 1) ""
     end
+
+val mp = map
 
 fun newlines [ctx] [[Body] ~ ctx] (s : string) : xml ([Body] ++ ctx) [] [] =
     case split s #"\n" of

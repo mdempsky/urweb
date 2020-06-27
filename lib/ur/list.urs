@@ -20,6 +20,7 @@ val revAppend : a ::: Type -> t a -> t a -> t a
 
 val append : a ::: Type -> t a -> t a -> t a
 
+val map : a ::: Type -> b ::: Type -> (a -> b) -> t a -> t b
 val mp : a ::: Type -> b ::: Type -> (a -> b) -> t a -> t b
 
 val mapConcat : a ::: Type -> b ::: Type -> (a -> t b) -> t a -> t b

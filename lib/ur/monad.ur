@@ -8,11 +8,12 @@ fun exec [m ::: Type -> Type] (_ : monad m) [ts ::: {Type}] r (fd : folder ts) =
 
 fun ignore [m ::: Type -> Type] (_ : monad m) [t] (v : m t) = x <- v; return ()
 
-fun mp [m] (_ : monad m) [a] [b] f m =
+fun map [m] (_ : monad m) [a] [b] f m =
     v <- m;
     return (f v)
 
-val liftM = @@mp
+val mp = @@map
+val liftM = @@map
 
 fun foldR [K] [m] (_ : monad m) [tf :: K -> Type] [tr :: {K} -> Type]
           (f : nm :: Name -> t :: K -> rest :: {K}

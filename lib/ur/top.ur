@@ -36,7 +36,7 @@ structure Folder = struct
                f [nm] [v] [r1' ++ r2] acc)
            (fn [[] ~ r2] => f2 [tf] f i)
 
-    fun mp [K1] [K2] [f ::: K1 -> K2] [r ::: {K1}]
+    fun map [K1] [K2] [f ::: K1 -> K2] [r ::: {K1}]
         (fold : folder r)
         [tf :: {K2} -> Type]
         (f : nm :: Name -> v :: K2 -> r :: {K2} -> [[nm] ~ r] =>
@@ -46,6 +46,8 @@ structure Folder = struct
         (fn [nm :: Name] [v :: K1] [rest :: {K1}] [[nm] ~ rest] (acc : tf (map f rest)) =>
             f [nm] [f v] [map f rest] acc)
         i
+
+    val mp [K1] [K2] [f ::: K1 -> K2] [r ::: {K1}] = map
 end
 
 
@@ -100,11 +102,13 @@ fun map0 [K] [tf :: K -> Type] (f : t :: K -> tf t) [r ::: {K}] (fl : folder r) 
         acc ++ {nm = f [t]})
     {}
 
-fun mp [K] [tf1 :: K -> Type] [tf2 :: K -> Type] (f : t ::: K -> tf1 t -> tf2 t) [r ::: {K}] (fl : folder r) =
+fun map [K] [tf1 :: K -> Type] [tf2 :: K -> Type] (f : t ::: K -> tf1 t -> tf2 t) [r ::: {K}] (fl : folder r) =
     fl [fn r :: {K} => $(map tf1 r) -> $(map tf2 r)]
     (fn [nm :: Name] [t :: K] [rest :: {K}] [[nm] ~ rest] acc r =>
         acc (r -- nm) ++ {nm = f r.nm})
     (fn _ => {})
+
+val mp [K] = map
 
 fun map2 [K] [tf1 :: K -> Type] [tf2 :: K -> Type] [tf3 :: K -> Type]
          (f : t ::: K -> tf1 t -> tf2 t -> tf3 t) [r ::: {K}] (fl : folder r) =
